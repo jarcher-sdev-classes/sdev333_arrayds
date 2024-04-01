@@ -133,4 +133,9 @@ structure under the /src directory.
 ## Requirements
 This section describes hard requirements for the assignment. Any deviation from these requirements will result in an assignment not being accepted. So please be aware.
 - You may not use any preexisting classes from Java's Collections framework.
-- You may not use the Arrays or Collections class as part of your implementation. This includes methods such as Arrays.copy(), Arrays.fill(), Arrays.sort(), Collection.sort(), etc.
+- You may not use the Arrays or Collections class as part of your implementation. This includes methods such as: 
+    - Arrays.copy()
+    - Arrays.fill()
+    - Arrays.sort()
+    - Collection.sort()
+    - ...
