@@ -1,6 +1,6 @@
 package informal_tests;
 
-public class Main
+public class MyTests
 {
     public static void main(String[] args)
     {

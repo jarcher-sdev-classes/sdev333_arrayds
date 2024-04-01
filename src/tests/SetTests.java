@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Josh Archer
  * @version 1.0
  */
-public class SetTest
+public class SetTests
 {
     private ISet set;
 
@@ -36,7 +36,7 @@ public class SetTest
     private ISet createSet()
     {
         //instantiate your class here!
-        return new ArraySet();
+        return null;
     }
 
     /**
