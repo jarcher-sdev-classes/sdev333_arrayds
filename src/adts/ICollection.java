@@ -31,6 +31,9 @@ public interface ICollection
     /**
      * Returns true if the element is located in the collection,
      * or otherwise false.
+
+     * Note: Elements should be matched in this method using
+     * equals() method of the corresponding objects.
      *
      * @param element the element to search for
      * @return true if the element is found, otherwise false

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import structure.ArraySet;
+import structure.SetAL;
 
 import java.util.*;
 
@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Josh Archer
  * @version 1.0
  */
-public class SetTests
-{
+public class SetTest {
     private ISet set;
 
     //test arrays
@@ -33,18 +32,16 @@ public class SetTests
         This method should create and return a new set
         for the methods below.
      */
-    private ISet createSet()
-    {
+    private ISet createSet() {
         //instantiate your class here!
-        return null;
+        return new SetAL();
     }
 
     /**
      * Creates a new set before each test.
      */
     @BeforeEach
-    public void setup()
-    {
+    public void setup() {
         set = createSet();
     }
 
@@ -53,13 +50,11 @@ public class SetTests
      * the set successfully.
      */
     @Test
-    public void addingElementsTest()
-    {
+    public void addingElementsTest() {
         addNoDupsElements();
 
-        for (int i = 0; i < noDupsArray.length; i++)
-        {
-            assertTrue(set.contains(noDupsArray[i]), "Elements added to set not discoverable with contains()");
+        for (Integer integer : noDupsArray) {
+            assertTrue(set.contains(integer), "Elements added to set not discoverable with contains()");
         }
     }
 
@@ -68,17 +63,12 @@ public class SetTests
      * calling add().
      */
     @Test
-    public void duplicateElementsTest()
-    {
+    public void duplicateElementsTest() {
         int dupsCount = 0;
-        for (int i = 0; i < dupsArray.length; i++)
-        {
-            try
-            {
-                set.add(dupsArray[i]);
-            }
-            catch (IllegalArgumentException ex)
-            {
+        for (Integer integer : dupsArray) {
+            try {
+                set.add(integer);
+            } catch (IllegalArgumentException ex) {
                 dupsCount++;
             }
         }
@@ -95,8 +85,7 @@ public class SetTests
      * after calling addAll().
      */
     @Test
-    public void addAllTest()
-    {
+    public void addAllTest() {
         set.addAll(noDupsArray);
         assertEquals(noDupsArray.length, set.size(),
                 "There should be " + noDupsArray.length + " unique elements in the set after calling addAll()");
@@ -107,8 +96,7 @@ public class SetTests
      * input parameters and elements already in the set.
      */
     @Test
-    public void addAllDuplicateElementsTest()
-    {
+    public void addAllDuplicateElementsTest() {
         addNoDupsElements();
         assertThrows(IllegalArgumentException.class, () -> set.addAll(noDupsArray));
     }
@@ -118,8 +106,7 @@ public class SetTests
      * an exception.
      */
     @Test
-    public void addAllDuplicateParametersTest()
-    {
+    public void addAllDuplicateParametersTest() {
         assertThrows(IllegalArgumentException.class, () -> set.addAll(dupsArray));
     }
 
@@ -128,8 +115,7 @@ public class SetTests
      * correctly.
      */
     @Test
-    public void sizeTest()
-    {
+    public void sizeTest() {
         addNoDupsElements();
 
         //list should be empty to start with
@@ -143,8 +129,7 @@ public class SetTests
      * correctly.
      */
     @Test
-    public void sizeEmptyTest()
-    {
+    public void sizeEmptyTest() {
         //list should be empty to start with
         assertEquals(0, set.size(), "List should have size 0 after no calls to add()");
         assertTrue(set.isEmpty(), "List should be empty after no calls to add()");
@@ -154,8 +139,7 @@ public class SetTests
      * Verifies that the capacity does not change unless exceeded.
      */
     @Test
-    public void capacityTest()
-    {
+    public void capacityTest() {
         addNoDupsElements();
 
         //capacity should be the same after a few (< 10) elements are added
@@ -166,8 +150,7 @@ public class SetTests
      * Verifies that the capacity of an empty set defaults to 10.
      */
     @Test
-    public void capacityEmptyTest()
-    {
+    public void capacityEmptyTest() {
         assertEquals(10, set.capacity(), "Capacity should default to 10 for a new set");
     }
 
@@ -175,16 +158,19 @@ public class SetTests
      * Verifies that the internal capacity of the set is doubling as necessary.
      */
     @Test
-    public void resizeCapacityTest()
-    {
-        int[] boundaries = {10, 20, 40, 80, 160, 320, 640, 1280};
+    public void resizeCapacityTest() {
+        int[] boundaries = new int[8]; //{10, 20, 40, 80, 160, 320, 640, 1280};
+        int max = 10;
+        for (int i = 0; i < boundaries.length; i++) {
+            boundaries[i] = max;
+            max *= 2;
+        }
+
         int boundaryIndex = 0;
-        for (int i = 1; i <= boundaries[boundaries.length - 2] + 1; i++)
-        {
+        for (int i = 1; i <= boundaries[boundaries.length - 2] + 1; i++) {
             set.add(i);
 
-            if (i == boundaries[boundaryIndex] + 1)
-            {
+            if (i == boundaries[boundaryIndex] + 1) {
                 boundaryIndex++;
             }
 
@@ -200,14 +186,12 @@ public class SetTests
      * with contains().
      */
     @Test
-    public void containsExistsTest()
-    {
+    public void containsExistsTest() {
         addNoDupsElements();
 
         //make sure elements are discoverable
-        for (int i = 0; i < noDupsArray.length; i++)
-        {
-            assertTrue(set.contains(noDupsArray[i]), "Added element not discoverable by contains()");
+        for (Integer integer : noDupsArray) {
+            assertTrue(set.contains(integer), "Added element not discoverable by contains()");
         }
     }
 
@@ -216,14 +200,12 @@ public class SetTests
      * with contains().
      */
     @Test
-    public void containsMissingTest()
-    {
+    public void containsMissingTest() {
         addNoDupsElements();
 
         //make sure elements are discoverable
-        for (int i = 0; i < missing.length; i++)
-        {
-            assertFalse(set.contains(missing[i]), "Missing element is discoverable by contains()");
+        for (int elem : missing) {
+            assertFalse(set.contains(elem), "Missing element is discoverable by contains()");
         }
     }
 
@@ -232,8 +214,7 @@ public class SetTests
      * when the set is empty.
      */
     @Test
-    public void containsOnEmptyListTest()
-    {
+    public void containsOnEmptyListTest() {
         //contains should always return false on empty set
         assertFalse(set.contains(3), "Missing element is discoverable by contains()");
 
@@ -249,8 +230,7 @@ public class SetTests
      */
     @ParameterizedTest
     @ValueSource(ints = {5, 8, 7, 4, 3, 6})
-    public void removeIndividual(int toRemove)
-    {
+    public void removeIndividual(int toRemove) {
         addNoDupsElements();
         assertEquals(noDupsArray.length, set.size(), "List size should be " +
                 noDupsArray.length + " before removing all elements");
@@ -262,54 +242,13 @@ public class SetTests
     }
 
     /**
-     * Removes several elements from the set and verifies that
-     * they are no longer in the set.
-     */
-    public void removeExistsTest()
-    {
-        addNoDupsElements();
-
-        //get a random remove order
-        Integer[] shuffled = shuffleNewArray(noDupsArray);
-
-        //remove in random order
-        for (int i = 0; i < shuffled.length; i++)
-        {
-            set.remove(shuffled[i]);
-        }
-
-        assertEquals(0, set.size(), "List size should be 0 after removing all elements");
-        assertTrue(set.isEmpty(), "List should be empty after removing all elements");
-    }
-
-    private Integer[] shuffleNewArray(Integer[] array)
-    {
-        Random random = new Random();
-        Integer[] copied = new Integer[array.length];
-        System.arraycopy(array, 0, copied, 0, array.length);
-
-        for (int i = 0; i < copied.length; i++)
-        {
-            swap(i, random.nextInt(copied.length), copied);
-        }
-
-        return copied;
-    }
-
-    private void swap(int first, int second, Integer[] array)
-    {
-        int temp = array[first];
-        array[first] = array[second];
-        array[second] = temp;
-    }
-
-    /**
      * Verifies that various missing elements cannot be removed from the set.
+     *
+     * @param toFind the element to search for in the set
      */
     @ParameterizedTest
     @ValueSource(ints = {2, 9, -2, 0, 11})
-    public void removeMissingTest(int toFind)
-    {
+    public void removeMissingTest(int toFind) {
         addNoDupsElements();
 
         assertThrows(NoSuchElementException.class, () -> set.remove(toFind),
@@ -320,8 +259,7 @@ public class SetTests
      * Verifies that the correct exception is thrown when removing from an empty set.
      */
     @Test
-    public void removeOnEmptySetTest()
-    {
+    public void removeOnEmptySetTest() {
         //no elements are present, this should give an exception
         assertThrows(NoSuchElementException.class, () -> set.remove(2),
                 "Exception should be thrown on an empty set");
@@ -332,8 +270,7 @@ public class SetTests
      * set.
      */
     @Test
-    public void clearEmptyTest()
-    {
+    public void clearEmptyTest() {
         //make sure no errors are encountered
         set.clear();
 
@@ -346,8 +283,7 @@ public class SetTests
      * set.
      */
     @Test
-    public void clearNotEmptyTest()
-    {
+    public void clearNotEmptyTest() {
         addNoDupsElements();
 
         //make sure no errors are encountered
@@ -358,48 +294,88 @@ public class SetTests
     }
 
     /**
+     * Tests whether two different objects, which are considered
+     * equivalent according to the equals() method are disallowed from
+     * both being in the set.
+     */
+    @Test
+    public void duplicateEquivalentTest() {
+        //these two objects are different, but equivalent according to equals()
+        TestClass first = new TestClass(1, "Hello");
+        TestClass second = new TestClass(1, "World");
+
+        set.add(first);
+        assertThrows(IllegalArgumentException.class, () -> set.add(second));
+    }
+
+    /**
+     * Tests whether two different objects, which are considered
+     * equivalent according to the equals() method, can be found
+     * using either object after the other is inserted in the set.
+     */
+    @Test
+    public void duplicateContainsTest() {
+        //these two objects are different, but equivalent according to equals()
+        TestClass first = new TestClass(1, "Hello");
+        TestClass second = new TestClass(1, "World");
+
+        set.add(first);
+        assertTrue(set.contains(second));
+    }
+
+    /**
+     * Tests whether two different objects, which are considered
+     * equivalent according to the equals() method, can be found
+     * and removed after the other is inserted in the set.
+     */
+    @Test
+    public void duplicateRemoveTest() {
+        //these two objects are different, but equivalent according to equals()
+        TestClass first = new TestClass(1, "Hello");
+        TestClass second = new TestClass(1, "World");
+
+        set.add(first);
+        assertDoesNotThrow(() -> set.remove(second)); //should not throw an exception
+    }
+
+    /**
      * Tests that a large number of elements can be added to the set and it
      * behaves predictably. This test is repeated 10 times with different
      * numbers of elements added to the set, as well as different amount
      * of duplicates.
      */
     @RepeatedTest(10)
-    public void largeSetTest()
-    {
+    public void largeSetTest() {
         Random random = new Random();
         int randomSetSize = Math.max(5, random.nextInt(1000));
 
         //the higher this number, the more duplicates will be created
         int duplicateChance = random.nextInt(5) + 1;
-        int successfulAdds = 0, unsuccessfulAdds = 0;
+        int successfulAdds = 0;
 
         //add enough elements for force a resize
         ArrayList<Integer> added = new ArrayList<>();
-        for (int i = 1; i <= randomSetSize; i++)
-        {
+        for (int i = 1; i <= randomSetSize; i++) {
             int element = randomSetSize / duplicateChance;
             added.add(element);
 
-            try
-            {
+            try {
                 set.add(element);
                 successfulAdds++;
             }
-            catch (IllegalArgumentException ex)
-            {
-                unsuccessfulAdds++;
+            catch (IllegalArgumentException ex) {
+                assert true; //do nothing...
             }
         }
 
         //make sure elements are discoverable
-        for (int i = 0; i < added.size(); i++)
-        {
-            assertTrue(set.contains(added.get(i)), "Element is not discoverable by contains()");
+        for (Integer integer : added) {
+            assertTrue(set.contains(integer), "Element is not discoverable by contains()");
         }
 
         //number of elements should not be zero
         assertEquals(successfulAdds, set.size(),
-                "Set size should be " + successfulAdds + " after calling add 1000 times");
+                "Set size should be " + successfulAdds + " after calling add()");
         assertFalse(set.isEmpty(), "Set should not be empty after calling add()");
     }
 
@@ -409,14 +385,12 @@ public class SetTests
      * a new element.
      */
     @Test
-    public void addAfterEmptyingSetTest()
-    {
+    public void addAfterEmptyingSetTest() {
         addNoDupsElements();
 
         //remove all elements
-        for (int i = 0; i < noDupsArray.length; i++)
-        {
-            set.remove(noDupsArray[i]);
+        for (Integer integer : noDupsArray) {
+            set.remove(integer);
         }
 
         //adding should still be successful
@@ -427,13 +401,48 @@ public class SetTests
     /*
      * Adds a group of elements to the set, without any duplicates being added.
      */
-    private void addNoDupsElements()
-    {
-        for (int i = 0; i < noDupsArray.length; i++)
-        {
-            set.add(noDupsArray[i]);
+    private void addNoDupsElements() {
+        for (Integer integer : noDupsArray) {
+            set.add(integer);
         }
         assertEquals(noDupsArray.length, set.size(),
                 "The size of your set should be " + noDupsArray.length + "after calling add()");
+    }
+
+    private static class TestClass {
+        private int identifier;
+        private String value;
+
+        public TestClass(int identifier, String value) {
+            this.identifier = identifier;
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) {
+                return true;
+            }
+
+            if (other == null || getClass() != other.getClass()) {
+                return false;
+            }
+
+            TestClass testClass = (TestClass) other;
+            return identifier == testClass.identifier;
+        }
+
+        @Override
+        public int hashCode() {
+            return identifier;
+        }
+
+        @Override
+        public String toString() {
+            return "TestClass{" +
+                    "identifier=" + identifier +
+                    ", value=" + value +
+                    '}';
+        }
     }
 }

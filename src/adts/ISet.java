@@ -1,5 +1,7 @@
 package adts;
 
+import java.util.NoSuchElementException;
+
 /**
  * Represents a set of unique elements. No duplicates will be
  * allowed. The set should grow to accommodate any number of
@@ -20,6 +22,7 @@ public interface ISet extends ICollection
      * @throws IllegalArgumentException if the input element is a
      *         duplicate of an existing element in the set
      */
+    @Override
     void add(Object element);
 
     /**
