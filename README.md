@@ -22,7 +22,7 @@ Inside the project files you will find the following files:
 - **ICollection**: defines a basic collection with methods for adding, removing or discovering elements. 
 - **ISet**: defines a set of elements, where no duplicates are allowed.
 - **MySet**: A class that you will implement that uses both of the ICollection and ISet interfaces.
-- **MySet**: An <span style="text-decoration: underline">optional</span> driver class to test your set structure.
+- **MyTests**: An <span style="text-decoration: underline">optional</span> driver class to test your set structure.
 - **SetTests**: A formal group of JUnit 5 tests that you can use to verify your work.
 
 Your job is to implement the MySet class so that it behaves like a set. The class should have the following
