@@ -334,6 +334,7 @@ public class SetTest {
         TestClass second = new TestClass(1, "World");
 
         set.add(first);
+        assertEquals(1, set.size(), "set size() should return 1 after an elements is added.");
         assertDoesNotThrow(() -> set.remove(second)); //should not throw an exception
     }
 
