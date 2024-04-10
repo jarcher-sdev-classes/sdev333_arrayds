@@ -34,7 +34,7 @@ public interface ISet extends ICollection
      * (https://www.programiz.com/java-programming/varargs)
      *
      * @param elements the elements to add to the set
-     * @throws IllegalStateException if any of the input elements
+     * @throws IllegalArgumentException if any of the input elements
      *         are duplicates of an existing element in the set
      *         or another element in the parameters
      */
