@@ -6,6 +6,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import structure.SetAL;
 
 import java.util.*;
 
@@ -396,6 +397,43 @@ public class SetTest {
         //adding should still be successful
         set.add(2);
         assertEquals(1, set.size(), "The size of your set should be 1 after calling add() on an empty set");
+    }
+
+    /**
+     * Verifies that the removeAll() method can find and remove
+     * elements found in the set.
+     */
+    @Test
+    public void removeAllTest() {
+        addNoDupsElements();
+        int[] toRemove = {7, 4, 3};
+
+        assertEquals(noDupsArray.length, set.size(), "Set size incorrect after adding elements");
+        for (int removed : toRemove) {
+            assertTrue(set.contains(removed), "Element inserted with add() cannot be found");
+        }
+
+        set.removeAll(7, 4, 3);
+
+        assertEquals(noDupsArray.length - 3, set.size(), "Set size incorrect after adding elements");
+        for (int removed : toRemove) {
+            assertFalse(set.contains(removed), "Element removed by removeAll() can still be found");
+        }
+    }
+
+    /**
+     * Verifies that removeAll() throws the expected exception when
+     * passed missing elements.
+     */
+    @Test
+    public void removeAllMissingTest() {
+        addNoDupsElements();
+
+        //all missing
+        assertThrows(NoSuchElementException.class, () -> set.removeAll(1, 2, 9, 10));
+
+        //partial missing
+        assertThrows(NoSuchElementException.class, () -> set.removeAll(7, 3, 9, 10));
     }
 
     /*
